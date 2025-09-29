@@ -1,0 +1,119 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Rank:
+   - Data type: Numeric
+   - 4 representative example values: 2, 3, 5, 7
+   - Role: Identifier
+
+2. Cyclist:
+   - Data type: Categorical
+   - 4 representative example values: Alexandr Kolobnev (RUS), Davide Rebellin (ITA), Franco Pellizotti (ITA), Samuel Sánchez (ESP)
+   - Role: Descriptor
+
+3. Team:
+   - Data type: Categorical
+   - 4 representative example values: Team CSC Saxo Bank, Gerolsteiner, Liquigas, Euskaltel-Euskadi
+   - Role: Descriptor
+
+4. Time:
+   - Data type: Categorical
+   - 4 representative example values: s.t., + 2"
+   - Role: Measure
+
+5. UCI ProTour Points:
+   - Data type: Numeric
+   - 4 representative example values: 30, 25, 15, 7
+   - Role: Measure
+
+**Outlier Row Analysis:**
+
+1. Row 0:
+   - The values in this row are not significantly different from the majority of the table. Therefore, this row is an ordinary row and does not require special handling.
+
+2. Row 9:
+   - The value "+ 2"" in the Time column is different from the majority of the table, which mostly has "s.t." This makes the row an outlier in terms of the Time column.
+
+3. Row 1:
+   - The values in this row are not significantly different from the majority of the table. Therefore, this row is an ordinary row and does not require special handling.
+
+=== Full Table Preview ===
+|   row_number |   Rank | Cyclist                  | Team               | Time       |   UCI ProTour\nPoints |
+|-------------:|-------:|:-------------------------|:-------------------|:-----------|----------------------:|
+|            0 |      1 | Alejandro Valverde (ESP) | Caisse d'Epargne   | 5h 29' 10" |                    40 |
+|            1 |      2 | Alexandr Kolobnev (RUS)  | Team CSC Saxo Bank | s.t.       |                    30 |
+|            2 |      3 | Davide Rebellin (ITA)    | Gerolsteiner       | s.t.       |                    25 |
+|            3 |      4 | Paolo Bettini (ITA)      | Quick Step         | s.t.       |                    20 |
+|            4 |      5 | Franco Pellizotti (ITA)  | Liquigas           | s.t.       |                    15 |
+|            5 |      6 | Denis Menchov (RUS)      | Rabobank           | s.t.       |                    11 |
+|            6 |      7 | Samuel Sánchez (ESP)     | Euskaltel-Euskadi  | s.t.       |                     7 |
+|            7 |      8 | Stéphane Goubert (FRA)   | Ag2r-La Mondiale   | + 2"       |                     5 |
+|            8 |      9 | Haimar Zubeldia (ESP)    | Euskaltel-Euskadi  | + 2"       |                     3 |
+|            9 |     10 | David Moncoutié (FRA)    | Cofidis            | + 2"       |                     1 |
+
+Generated Reasoning SQL: To find the cyclist ranked between Denis Menchov and Stephane Goubert, we need to identify the rank of these two cyclists and then select the cyclist with a rank between them.  
+From the summary, we know that the "Rank" column is numeric and serves as an identifier.  
+We first need to determine the ranks of Denis Menchov and Stephane Goubert, and then select the cyclist(s) with a rank between them.  
+SQL:  
+```
+SELECT "Cyclist"
+FROM T
+WHERE "Rank" > (SELECT "Rank" FROM T WHERE "Cyclist" = 'Denis Menchov')
+AND "Rank" < (SELECT "Rank" FROM T WHERE "Cyclist" = 'Stephane Goubert');
+```
+Generated Final SQL: ``` SELECT "Cyclist" FROM T WHERE "Rank" > (SELECT "Rank" FROM T WHERE "Cyclist" = 'Denis Menchov') AND "Rank" < (SELECT "Rank" FROM T WHERE "Cyclist" = 'Stephane Goubert'); ```
+[Error] Final SQL 실행 실패: Execution failed on sql '``` SELECT "Cyclist" FROM T WHERE "Rank" > (SELECT "Rank" FROM T WHERE "Cyclist" = 'Denis Menchov') AND "Rank" < (SELECT "Rank" FROM T WHERE "Cyclist" = 'Stephane Goubert'); ```': near "``` SELECT "Cyclist" FROM T WHERE "Rank" > (SELECT "Rank" FROM T WHERE "Cyclist" = 'Denis Menchov') AND "Rank" < (SELECT "Rank" FROM T WHERE "Cyclist" = 'Stephane Goubert'); ```": syntax error
+[Fallback] SQL 결과가 없으므로 Full Table 기반 추론으로 전환
+[Fallback] Prompt SQL:
+
+The provided summary is the primary structure for interpreting the Full Table.  
+Always start by carefully examining the summary to identify which columns, data types, and special cases are relevant to the question.  
+Then, use the full table to confirm and extract the exact values based on the hints from the summary.  
+Your reasoning must explicitly combine evidence from both the summary and the full table before giving the final answer.  
+Final output must follow the format:
+Final Answer: AnswerName1, AnswerName2...
+
+How many cyclists in the top 10 were French?
+To answer this question, I will use both the summary and the full table.
+
+From the summary:
+- The **Cyclist** column is text and includes both name and nationality in parentheses, e.g., "Stéphane Goubert (FRA)".
+- Special / Atypical Rows: none were listed, so every row in the preview represents an individual cyclist.
+- Preprocessing Artifacts: none critical except "s.t." in the Time column, which stands for "same time". This does not affect nationality counting.
+
+From the full table:
+- The cyclists with "(FRA)" are:
+  1. Stéphane Goubert (Rank 8, FRA)
+  2. David Moncoutié (Rank 10, FRA)
+
+Thus, by combining the summary’s description (Cyclist column contains nationality; no atypical rows interfere)  
+with the explicit entries in the full table, we can conclude there are 2 French cyclists in the top 10.
+
+Final Answer: Stéphane Goubert, David Moncoutié
+Table: 2008 Clásica de San Sebastián (row_number, Rank, Cyclist, Team, Time, UCI ProTour\nPoints)
+
+row_number | Rank | Cyclist | Team | Time | UCI ProTour\nPoints
+0 | 1 | Alejandro Valverde (ESP) | Caisse d'Epargne | 5h 29' 10" | 40
+1 | 2 | Alexandr Kolobnev (RUS) | Team CSC Saxo Bank | s.t. | 30
+2 | 3 | Davide Rebellin (ITA) | Gerolsteiner | s.t. | 25
+3 | 4 | Paolo Bettini (ITA) | Quick Step | s.t. | 20
+4 | 5 | Franco Pellizotti (ITA) | Liquigas | s.t. | 15
+5 | 6 | Denis Menchov (RUS) | Rabobank | s.t. | 11
+6 | 7 | Samuel Sánchez (ESP) | Euskaltel-Euskadi | s.t. | 7
+7 | 8 | Stéphane Goubert (FRA) | Ag2r-La Mondiale | + 2" | 5
+8 | 9 | Haimar Zubeldia (ESP) | Euskaltel-Euskadi | + 2" | 3
+9 | 10 | David Moncoutié (FRA) | Cofidis | + 2" | 1
+Question: who was ranked between denis menchov and stephane goubert?
+A: To find the answer to this question, let’s think step by step.
+[Fallback] Raw Response: To determine who was ranked between Denis Menchov and Stéphane Goubert, we need to look at the Rank column in the full table.
+
+Denis Menchov is at Rank 6 and Stéphane Goubert is at Rank 8, so we are looking for the cyclist at Rank 7.
+
+From the table, we see that Samuel Sánchez (ESP) from Euskaltel-Euskadi was ranked at position 7.
+
+Therefore, the cyclist ranked between Denis Menchov and Stéphane Goubert was Samuel Sánchez.
+
+Final Answer: Samuel Sánchez
+[Fallback] Prediction: samuel sánchez
+[Gold Answer] samuel sánchez (esp)
+

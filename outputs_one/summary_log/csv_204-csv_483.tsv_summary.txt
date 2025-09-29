@@ -1,0 +1,42 @@
+**Column Analysis:**
+
+1. Year:
+   - Data type: Numeric
+   - 4 representative example values: 2003, 2004, 2008, 2010
+   - Role: Identifier for the year in which the competition took place.
+
+2. Competition:
+   - Data type: Categorical
+   - 4 representative example values: All-Africa Games, African Championships, Olympic Games, World Championships
+   - Role: Descriptor for the type of competition.
+
+3. Venue:
+   - Data type: Categorical
+   - 4 representative example values: Abuja, Nigeria, Brazzaville, Republic of the Congo, Athens, Greece, Addis Ababa, Ethiopia
+   - Role: Descriptor for the location where the competition took place.
+
+4. Position:
+   - Data type: Categorical
+   - 4 representative example values: 5th, 2nd, 8th, 1st
+   - Role: Descriptor for the athlete's position in the event.
+
+5. Event:
+   - Data type: Categorical
+   - 4 representative example values: Shot put, Discus throw, Javelin throw, Hammer throw
+   - Role: Descriptor for the type of event in which the athlete participated.
+
+6. Notes:
+   - Data type: Numeric
+   - 4 representative example values: 17.76 m, 62.86 m, 63.50 m, 56.98 m
+   - Role: Measure of the performance in the event.
+
+**Outlier Row Analysis:**
+
+1. Row 1:
+   - The values for Position (5th) and Notes (17.76 m) are not significantly different from other rows in the table. This row is an ordinary entry and does not require special handling.
+
+2. Row 4:
+   - The value for Position (8th) is not uncommon in sports competitions. The performance in the Discus throw (62.58 m) is also within the range of other entries. This row is an ordinary entry and does not require special handling.
+
+3. Row 0:
+   - The values for Position (2nd) and Notes (62.86 m) are consistent with other entries in the table. This row is an ordinary entry and does not require special handling.

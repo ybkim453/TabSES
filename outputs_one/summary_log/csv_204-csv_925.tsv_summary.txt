@@ -1,0 +1,42 @@
+**Column Analysis:**
+
+1. Name:
+   - Data type: Categorical
+   - 4 representative example values: Liam Sercombe, John O'Flynn, Pat Baldwin, Jamie Cureton
+   - Role: Identifier
+
+2. League:
+   - Data type: Numeric
+   - 4 representative example values: 1, 11, 20
+   - Role: Measure
+
+3. FA Cup:
+   - Data type: Numeric
+   - 4 representative example values: 0
+   - Role: Measure
+
+4. League Cup:
+   - Data type: Numeric
+   - 4 representative example values: 0, 1
+   - Role: Measure
+
+5. JP Trophy:
+   - Data type: Numeric
+   - 4 representative example values: 0
+   - Role: Measure
+
+6. Total:
+   - Data type: Numeric
+   - 4 representative example values: 1, 12, 20
+   - Role: Measure
+
+**Outlier Row Analysis:**
+
+1. Row 4 (Jamie Cureton):
+   - Jamie Cureton has a high value of 20 in the League column, which is significantly higher than the other values in the League column. This makes the row an outlier in terms of performance in the league.
+
+2. Row 8 (Jake Gosling):
+   - Jake Gosling has a low value of 1 in the League column, which is consistent with other values in the League column. This row is an ordinary row and does not require special handling.
+
+3. Row 7 (Pat Baldwin):
+   - Pat Baldwin has a low value of 1 in the League column, which is consistent with other values in the League column. This row is an ordinary row and does not require special handling.

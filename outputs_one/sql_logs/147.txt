@@ -1,0 +1,119 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. **Tournament:**
+   - Data type: Categorical
+   - 4 representative example values: Miami Masters, Madrid Masters, Shanghai Masters, Paris Masters
+   - Role: Identifier for the tournament name
+
+2. **2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014:**
+   - Data type: Categorical/Numeric
+   - 4 representative example values: A, 2R, 1R, nan
+   - Role: Measure of performance for each year in the respective tournament
+
+3. **W-L:**
+   - Data type: Categorical/Numeric
+   - 4 representative example values: 3-6, 5-5, 4-3, 1-3
+   - Role: Measure of win-loss record for each tournament
+
+**Outlier Row Analysis:**
+
+1. **Row 0 (Miami Masters):**
+   - The values for 2007 and 2008 are different from the majority of the table (2R and 1R compared to A).
+   - These values indicate a significant drop in performance for those years, making this row an outlier.
+
+2. **Row 12 (Hamburg Masters):**
+   - The value for 2006 is 2R, which is different from the majority of the table (A).
+   - This indicates a slightly better performance in 2006 compared to other years, making this row an outlier.
+
+3. **Row 14 (Outlier Row):**
+   - The values for 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 are all A, which is consistent with the majority of the table.
+   - This row contains missing data (nan) for the 2014 column, which is not a distinctive value and does not make this row an outlier.
+
+=== Full Table Preview ===
+|   row_number | Tournament           | 2004               | 2005               | 2006               | 2007               | 2008               | 2009               | 2010               | 2011               | 2012               | 2013               | 2014   | W–L   |
+|-------------:|:---------------------|:-------------------|:-------------------|:-------------------|:-------------------|:-------------------|:-------------------|:-------------------|:-------------------|:-------------------|:-------------------|:-------|:------|
+|            0 | Australian Open      | A                  | 2R                 | 2R                 | 2R                 | 3R                 | 2R                 | 1R                 | 3R                 | 1R                 | 1R                 | 2R     | 9–10  |
+|            1 | French Open          | 2R                 | 1R                 | 1R                 | 2R                 | 2R                 | 1R                 | 2R                 | 3R                 | 1R                 | 1R                 |        | 6–10  |
+|            2 | Wimbledon            | A                  | 2R                 | 2R                 | 1R                 | 3R                 | 2R                 | 1R                 | 2R                 | 2R                 | 1R                 |        | 7–9   |
+|            3 | US Open              | A                  | 1R                 | 1R                 | 1R                 | 2R                 | 2R                 | 2R                 | 2R                 | 2R                 | 1R                 |        | 5–9   |
+|            4 | Win–Loss             | 1–1                | 2–4                | 2–4                | 2–4                | 6–4                | 3–4                | 2–4                | 6–4                | 2–4                | 0–4                | 1–1    | 27–38 |
+|            5 | Indian Wells Masters | A                  | A                  | A                  | 3R                 | 2R                 | 1R                 | 4R                 | 2R                 | 3R                 | A                  | A      | 8–6   |
+|            6 | Miami Masters        | A                  | A                  | A                  | 2R                 | 1R                 | 1R                 | 2R                 | 2R                 | 2R                 | A                  |        | 3–6   |
+|            7 | Monte-Carlo Masters  | A                  | 1R                 | A                  | 3R                 | LQ                 | A                  | 1R                 | 2R                 | A                  | A                  |        | 2–3   |
+|            8 | Rome Masters         | A                  | A                  | A                  | A                  | A                  | LQ                 | 3R                 | 1R                 | 2R                 | A                  |        | 3–3   |
+|            9 | Madrid Masters       | A                  | A                  | A                  | LQ                 | LQ                 | 1R                 | 3R                 | 3R                 | 2R                 | 1R                 |        | 5–5   |
+|           10 | Canada Masters       | A                  | A                  | A                  | A                  | A                  | 1R                 | A                  | A                  | A                  | A                  |        | 0–1   |
+|           11 | Cincinnati Masters   | A                  | A                  | A                  | LQ                 | A                  | 3R                 | A                  | 1R                 | A                  | A                  |        | 2–2   |
+|           12 | Shanghai Masters     | Not Masters Series | Not Masters Series | Not Masters Series | Not Masters Series | Not Masters Series | 1R                 | QF                 | 2R                 | Q2                 | A                  |        | 4–3   |
+|           13 | Paris Masters        | A                  | A                  | A                  | LQ                 | LQ                 | A                  | A                  | 2R                 | 1R                 | 1R                 |        | 1–3   |
+|           14 | Hamburg Masters      | A                  | A                  | 2R                 | 1R                 | A                  | Not Masters Series | Not Masters Series | Not Masters Series | Not Masters Series | Not Masters Series |        | 1–2   |
+|           15 | Win–Loss             | 0–0                | 0–1                | 1–1                | 4–4                | 1–2                | 2–6                | 11–6               | 5–8                | 5–5                | 0–2                |        | 29–35 |
+|           16 | Titles–Finals        | 0–0                | 0–0                | 0–0                | 0–0                | 0–0                | 1–1                | 1–2                | 0–0                | 0–0                | 0–2                |        | 2–5   |
+|           17 | Year End Ranking     | 129                | 91                 | 68                 | 90                 | 62                 | 41                 | 33                 | 39                 | 76                 | 62                 |        |       |
+
+Generated Reasoning SQL: Explanation: To calculate Guillermo García-López's combined win and loss record from the Rome, Madrid, and Paris Masters tournaments, we need to sum the wins and losses from the "W-L" column for each of these tournaments. We will filter the rows based on the "Tournament" column matching 'Rome Masters', 'Madrid Masters', or 'Paris Masters'.
+
+SQL: 
+SELECT SUM(CAST(SUBSTR("W-L", 1, INSTR("W-L", '-') - 1) AS INTEGER)) AS total_wins, 
+       SUM(CAST(SUBSTR("W-L", INSTR("W-L", '-') + 1) AS INTEGER)) AS total_losses
+FROM T
+WHERE "Tournament" IN ('Rome Masters', 'Madrid Masters', 'Paris Masters');
+Generated Final SQL: SELECT SUM(CAST(SUBSTR("W-L", 1, INSTR("W-L", '-') - 1) AS INTEGER)) AS total_wins, SUM(CAST(SUBSTR("W-L", INSTR("W-L", '-') + 1) AS INTEGER)) AS total_losses FROM T WHERE "Tournament" IN ('Rome Masters', 'Madrid Masters', 'Paris Masters');
+SQL 실행 결과 셀 수: 2
+=== SQL 실행 결과 미리보기 ===
+|   total_wins |   total_losses |
+|-------------:|---------------:|
+|            9 |             11 |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- Always write a short reasoning step before the Final Answer.
+- If one cell is returned: briefly confirm it is the only result.
+- If multiple rows/columns: reason step by step to filter or choose.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: Guillermo García-López
+SQL: SELECT SUM(CAST(SUBSTR("W-L", 1, INSTR("W-L", '-') - 1) AS INTEGER)) AS total_wins, SUM(CAST(SUBSTR("W-L", INSTR("W-L", '-') + 1) AS INTEGER)) AS total_losses FROM T WHERE "Tournament" IN ('Rome Masters', 'Madrid Masters', 'Paris Masters');
+
+SQL Execution Result:
+total_wins | total_losses
+9 | 11
+
+Question: what was guillermo garcía-lópez combined win and loss record from the rome, madrid and paris masters?
+A: To find the answer to this question, let’s think step by step.
+Prediction: 9, 11
+[Gold Answer] 9-11
+

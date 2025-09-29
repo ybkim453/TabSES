@@ -1,0 +1,129 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Year
+   - Data type: Categorical
+   - 4 representative example values: 1997–1999, 1999–2004, 2008–, 2011–2013
+   - Role: Identifier
+
+2. Kit Manufacturer
+   - Data type: Categorical
+   - 4 representative example values: Errea
+   - Role: Descriptor
+
+3. Shirt Sponsor
+   - Data type: Categorical
+   - 4 representative example values: Endsleigh Insurance, Towergate Insurance, Mira Showers
+   - Role: Descriptor
+
+4. Back of Shirt Sponsor
+   - Data type: Categorical
+   - 4 representative example values: nan, Barr Stadia, Gloucestershire College
+   - Role: Descriptor
+
+5. Short Sponsor
+   - Data type: Categorical
+   - 4 representative example values: nan, Gloucestershire Echo
+   - Role: Descriptor
+
+**Outlier Row Analysis:**
+
+1. Row 16:
+   - Distinctive values: Year = 2013–, Kit Manufacturer = Errea, Shirt Sponsor = Mira Showers, Back of Shirt Sponsor = Gloucestershire College, Short Sponsor = Gloucestershire Echo
+   - Explanation: This row is not an outlier as it contains values that are consistent with other entries in the table.
+
+2. Row 15:
+   - Distinctive values: Year = 2011–2013, Kit Manufacturer = Errea, Shirt Sponsor = Mira Showers, Back of Shirt Sponsor = Barr Stadia, Short Sponsor = Gloucestershire Echo
+   - Explanation: This row is not an outlier as it contains values that are consistent with other entries in the table.
+
+3. Row 3:
+   - Distinctive values: Year = 2008–, Kit Manufacturer = Errea, Shirt Sponsor = Mira Showers
+   - Explanation: This row is not an outlier as it contains values that are consistent with other entries in the table.
+
+=== Full Table Preview ===
+|   row_number | Year      | Kit Manufacturer   | Shirt Sponsor            | Back of Shirt Sponsor   | Short Sponsor        |
+|-------------:|:----------|:-------------------|:-------------------------|:------------------------|:---------------------|
+|            0 | 1977–1978 |                    | National Express         |                         |                      |
+|            1 | 1982–1985 | Umbro              |                          |                         |                      |
+|            2 | 1985–1986 | Umbro              | Whitbread                |                         |                      |
+|            3 | 1986–1988 | Henson             | Duraflex                 |                         |                      |
+|            4 | 1988–1989 |                    | Gulf Oil                 |                         |                      |
+|            5 | 1991–1993 | Technik            | Gulf Oil                 |                         |                      |
+|            6 | 1993–1994 | Club Sport         | Gulf Oil                 |                         |                      |
+|            7 | 1994–1995 | Klūb Sport         | Empress                  |                         |                      |
+|            8 | 1995–1996 | Matchwinner        | Empress                  |                         |                      |
+|            9 | 1996–1997 | UK                 | Endsleigh Insurance      |                         |                      |
+|           10 | 1997–1999 | Errea              | Endsleigh Insurance      |                         |                      |
+|           11 | 1999–2004 | Errea              | Towergate Insurance      |                         |                      |
+|           12 | 2004–2008 | Errea              | Bence Building Merchants |                         |                      |
+|           13 | 2008–     | Errea              | Mira Showers             |                         |                      |
+|           14 | 2009–2011 | Errea              | Mira Showers             | PSU Technology Group    |                      |
+|           15 | 2011–2013 | Errea              | Mira Showers             | Barr Stadia             | Gloucestershire Echo |
+|           16 | 2013–     | Errea              | Mira Showers             | Gloucestershire College | Gloucestershire Echo |
+
+Generated Reasoning SQL: To determine the total number of years that Errea manufactured kits for Cheltenham Town F.C., we need to count the distinct years where the Kit Manufacturer is Errea.
+
+Explanation: The relevant column for this question is "Year" as it represents the years in which kits were manufactured by different companies. The "Kit Manufacturer" column is categorical and contains the manufacturer names. We are interested in counting the total years where Errea was the manufacturer.
+
+SQL: 
+SELECT COUNT(DISTINCT "Year") AS total_years_errea_manufactured
+FROM T
+WHERE "Kit Manufacturer" = 'Errea';
+Generated Final SQL: SELECT COUNT(DISTINCT "Year") AS total_years_errea_manufactured FROM T WHERE "Kit Manufacturer" = 'Errea';
+SQL 실행 결과 셀 수: 1
+=== SQL 실행 결과 미리보기 ===
+|   total_years_errea_manufactured |
+|---------------------------------:|
+|                                7 |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- Always write a short reasoning step before the Final Answer.
+- If one cell is returned: briefly confirm it is the only result.
+- If multiple rows/columns: reason step by step to filter or choose.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: Cheltenham Town F.C.
+SQL: SELECT COUNT(DISTINCT "Year") AS total_years_errea_manufactured FROM T WHERE "Kit Manufacturer" = 'Errea';
+
+SQL Execution Result:
+total_years_errea_manufactured
+7
+
+Question: total years errea manufactured?
+A: To find the answer to this question, let’s think step by step.
+Prediction: 7
+[Gold Answer] 16
+

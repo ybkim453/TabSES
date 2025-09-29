@@ -1,0 +1,6 @@
+name	glyph	C string	Unicode	Unicode name
+carriage-return		\\r	U+000D	CARRIAGE RETURN (CR)
+period	.	.	U+002E	FULL STOP
+C	C	C	U+0043	LATIN CAPITAL LETTER C
+K	K	K	U+004B	LATIN CAPITAL LETTER K
+p	p	p	U+0070	LATIN SMALL LETTER P

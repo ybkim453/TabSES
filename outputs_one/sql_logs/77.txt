@@ -1,0 +1,123 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Year:
+   - Data type: Numeric
+   - 4 representative example values: 2011, 2012, 2014, nan
+   - Role of the column: Identifier for the year in which the film was released
+
+2. Film:
+   - Data type: Categorical
+   - 4 representative example values: Hudugaru, Alemari, Sagar, Mr. & Mrs. Ramachari
+   - Role of the column: Descriptor for the title of the film
+
+3. Role:
+   - Data type: Categorical
+   - 4 representative example values: Gayithri, Neeli, Kajal, Nandini
+   - Role of the column: Descriptor for the role played by the actress in the film
+
+4. Language:
+   - Data type: Categorical
+   - 4 representative example values: Kannada, nan
+   - Role of the column: Descriptor for the language in which the film is made
+
+5. Notes:
+   - Data type: Categorical
+   - 4 representative example values: Nominated, nan, Announced
+   - Role of the column: Descriptor for any additional notes related to the film
+
+**Outlier Row Analysis:**
+
+1. Row 15:
+   - The film "Mr. & Mrs. Ramachari" has missing values for the Role and Language columns, which is different from the majority of the table where these columns have specific values. This makes the row an outlier.
+
+2. Row 1:
+   - The film "Hudugaru" has a note mentioning the nomination for the Filmfare Award for Best Actress – Kannada, which is a specific and distinctive feature not present in other rows. This makes the row an outlier.
+
+3. Row 5:
+   - The film "Alemari" has a missing value for the Notes column, which is different from the majority of the table where this column has specific values. This makes the row an outlier.
+
+=== Full Table Preview ===
+|   row_number |   Year | Film                      | Role      | Language   | Notes                                                                                                                         |
+|-------------:|-------:|:--------------------------|:----------|:-----------|:------------------------------------------------------------------------------------------------------------------------------|
+|            0 |   2008 | Moggina Manasu            | Chanchala | Kannada    | Filmfare Award for Best Actress - Kannada\nKarnataka State Film Award for Best Actress                                        |
+|            1 |   2009 | Olave Jeevana Lekkachaara | Rukmini   | Kannada    | Innovative Film Award for Best Actress                                                                                        |
+|            2 |   2009 | Love Guru                 | Kushi     | Kannada    | Filmfare Award for Best Actress - Kannada                                                                                     |
+|            3 |   2010 | Krishnan Love Story       | Geetha    | Kannada    | Filmfare Award for Best Actress - Kannada\nUdaya Award for Best Actress                                                       |
+|            4 |   2010 | Gaana Bajaana             | Radhey    | Kannada    |                                                                                                                               |
+|            5 |   2011 | Hudugaru                  | Gayithri  | Kannada    | Nominated Filmfare Award for Best Actress – Kannada                                                                           |
+|            6 |   2012 | Alemari                   | Neeli     | Kannada    |                                                                                                                               |
+|            7 |   2012 | Breaking News             | Shraddha  | Kannada    |                                                                                                                               |
+|            8 |   2012 | Addhuri                   | Poorna    | Kannada    | Udaya Award for Best Actress\nNominated — SIIMA Award for Best Actress\nNominated — Filmfare Award for Best Actress – Kannada |
+|            9 |   2012 | 18th Cross                | Punya     | Kannada    |                                                                                                                               |
+|           10 |   2012 | Sagar                     | Kajal     | Kannada    |                                                                                                                               |
+|           11 |   2012 | Drama                     | Nandini   | Kannada    |                                                                                                                               |
+|           12 |   2013 | Kaddipudi                 | Uma       | Kannada    |                                                                                                                               |
+|           13 |   2013 | Dilwala                   | Preethi   | Kannada    |                                                                                                                               |
+|           14 |   2013 | Bahaddoor                 | Anjali    | Kannada    | Filming                                                                                                                       |
+|           15 |   2014 | Mr. & Mrs. Ramachari      |           |            | Announced                                                                                                                     |
+|           16 |   2014 | Endendigu                 |           |            | Filming                                                                                                                       |
+
+Generated Reasoning SQL: Explanation: To determine the number of films that were nominated for an award, we need to consider the "Notes" column, where the presence of the term "Nominated" indicates that the film was nominated for an award. We will count the rows where the "Notes" column contains the term "Nominated".
+
+SQL: SELECT COUNT(*) 
+FROM T 
+WHERE "Notes" LIKE '%Nominated%';
+Generated Final SQL: SELECT COUNT(*) FROM T WHERE "Notes" LIKE '%Nominated%';
+SQL 실행 결과 셀 수: 1
+=== SQL 실행 결과 미리보기 ===
+|   COUNT(*) |
+|-----------:|
+|          2 |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- Always write a short reasoning step before the Final Answer.
+- If one cell is returned: briefly confirm it is the only result.
+- If multiple rows/columns: reason step by step to filter or choose.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: Radhika Pandit
+SQL: SELECT COUNT(*) FROM T WHERE "Notes" LIKE '%Nominated%';
+
+SQL Execution Result:
+COUNT(*)
+2
+
+Question: how many films were nominated for an award.
+A: To find the answer to this question, let’s think step by step.
+Prediction: 2
+[Gold Answer] 6
+

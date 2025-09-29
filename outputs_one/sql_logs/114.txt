@@ -1,0 +1,136 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Year:
+   - Data type: Numeric
+   - 4 representative example values: 2002, 2003, 2004, 2007
+   - Role: Identifier for the year in which the competition took place.
+
+2. Competition:
+   - Data type: Categorical
+   - 4 representative example values: European Indoor Championships, European U23 Championships, Olympic Games, World Championships
+   - Role: Descriptor of the type of competition.
+
+3. Venue:
+   - Data type: Categorical
+   - 4 representative example values: Vienna, Austria, Bydgoszcz, Poland, Athens, Greece, Osaka, Japan
+   - Role: Descriptor of the location where the competition was held.
+
+4. Position:
+   - Data type: Categorical
+   - 4 representative example values: 1st, 10th (h), 3rd, 6th
+   - Role: Descriptor of the athlete's position in the event.
+
+5. Event:
+   - Data type: Categorical
+   - 4 representative example values: 400 m, 400 m hurdles, 4x400 m relay
+   - Role: Descriptor of the specific event in which the athlete participated.
+
+6. Notes:
+   - Data type: Categorical
+   - 4 representative example values: 45.39 (CR, NR), 48.45, 3:03.69, 48.12 (NR)
+   - Role: Additional information or notes related to the athlete's performance in the event.
+
+**Outlier Row Analysis:**
+
+1. Row 4:
+   - The position "10th (h)" in the Olympic Games is significantly lower compared to the other positions in the table, making this row an outlier.
+
+2. Row 13:
+   - The time of "3:03.69" for the 4x400 m relay is notably different from the other times in the table, indicating a slower performance and making this row an outlier.
+
+3. Row 1:
+   - The time of "45.39 (CR, NR)" for the 400 m event is a record-breaking time (CR, NR), which sets it apart from the other times in the table, making this row an outlier.
+
+=== Full Table Preview ===
+|   row_number |   Year | Competition                   | Venue                     | Position   | Event         | Notes         |
+|-------------:|-------:|:------------------------------|:--------------------------|:-----------|:--------------|:--------------|
+|            0 |   1999 | European Junior Championships | Riga Latvia               | 4th        | 400 m hurdles | 52.17         |
+|            1 |   2000 | World Junior Championships    | Santiago Chile            | 1st        | 400 m hurdles | 49.23         |
+|            2 |   2001 | World Championships           | Edmonton Canada           | 18th (sf)  | 400 m hurdles | 49.80         |
+|            3 |   2001 | Universiade                   | Beijing China             | 8th        | 400 m hurdles | 49.68         |
+|            4 |   2002 | European Indoor Championships | Vienna Austria            | 1st        | 400 m         | 45.39 (CR NR) |
+|            5 |   2002 | European Indoor Championships | Vienna Austria            | 1st        | 4x400 m relay | 3:05.50 (CR)  |
+|            6 |   2002 | European Championships        | Munich Germany            | 4th        | 400 m         | 45.40         |
+|            7 |   2002 | European Championships        | Munich Germany            | 8th        | 4x400 m relay | DQ            |
+|            8 |   2003 | World Indoor Championships    | Birmingham United Kingdom | 7th (sf)   | 400 m         | 46.82         |
+|            9 |   2003 | World Indoor Championships    | Birmingham United Kingdom | 3rd        | 4x400 m relay | 3:06.61       |
+|           10 |   2003 | European U23 Championships    | Bydgoszcz Poland          | 1st        | 400 m hurdles | 48.45         |
+|           11 |   2003 | European U23 Championships    | Bydgoszcz Poland          | 1st        | 4x400 m relay | 3:03.32       |
+|           12 |   2004 | Olympic Games                 | Athens Greece             | 6th        | 400 m hurdles | 49.00         |
+|           13 |   2004 | Olympic Games                 | Athens Greece             | 10th (h)   | 4x400 m relay | 3:03.69       |
+|           14 |   2006 | European Championships        | Gothenburg Sweden         | 2nd        | 400 m hurdles | 48.71         |
+|           15 |   2007 | World Championships           | Osaka Japan               | 3rd        | 400 m hurdles | 48.12 (NR)    |
+|           16 |   2007 | World Championships           | Osaka Japan               | 3rd        | 4x400 m relay | 3:00.05       |
+|           17 |   2008 | Olympic Games                 | Beijing China             | 6th        | 400 m hurdles | 48.42         |
+|           18 |   2008 | Olympic Games                 | Beijing China             | 7th        | 4x400 m relay | 3:00.32       |
+|           19 |   2012 | European Championships        | Helsinki Finland          | 18th (sf)  | 400 m hurdles | 50.77         |
+
+Generated Reasoning SQL: Explanation: To determine the competition in which Plawgo competed after the 1999 European Junior Championships, we need to filter rows where the "Year" is greater than 1999 and the "Athlete" is Marek Plawgo. We will then select the distinct values in the "Competition" column to identify the competitions he participated in after 1999.
+
+SQL: 
+SELECT DISTINCT "Competition" 
+FROM T 
+WHERE "Year" > 1999 AND "Athlete" = 'Marek Plawgo';
+Generated Final SQL: SELECT DISTINCT "Competition" FROM T WHERE "Year" > 1999 AND "Athlete" = 'Marek Plawgo';
+SQL 실행 결과 셀 수: 0
+[Fallback] SQL 결과가 없으므로 Full Table 기반 추론으로 전환
+[Fallback] Prompt SQL:
+
+The provided summary is the primary structure for interpreting the Full Table.  
+Always start by carefully examining the summary to identify which columns, data types, and special cases are relevant to the question.  
+Then, use the full table to confirm and extract the exact values based on the hints from the summary.  
+Your reasoning must explicitly combine evidence from both the summary and the full table before giving the final answer.  
+Final output must follow the format:
+Final Answer: AnswerName1, AnswerName2...
+
+How many cyclists in the top 10 were French?
+To answer this question, I will use both the summary and the full table.
+
+From the summary:
+- The **Cyclist** column is text and includes both name and nationality in parentheses, e.g., "Stéphane Goubert (FRA)".
+- Special / Atypical Rows: none were listed, so every row in the preview represents an individual cyclist.
+- Preprocessing Artifacts: none critical except "s.t." in the Time column, which stands for "same time". This does not affect nationality counting.
+
+From the full table:
+- The cyclists with "(FRA)" are:
+  1. Stéphane Goubert (Rank 8, FRA)
+  2. David Moncoutié (Rank 10, FRA)
+
+Thus, by combining the summary’s description (Cyclist column contains nationality; no atypical rows interfere)  
+with the explicit entries in the full table, we can conclude there are 2 French cyclists in the top 10.
+
+Final Answer: Stéphane Goubert, David Moncoutié
+Table: Marek Plawgo (row_number, Year, Competition, Venue, Position, Event, Notes)
+
+row_number | Year | Competition | Venue | Position | Event | Notes
+0 | 1999 | European Junior Championships | Riga Latvia | 4th | 400 m hurdles | 52.17
+1 | 2000 | World Junior Championships | Santiago Chile | 1st | 400 m hurdles | 49.23
+2 | 2001 | World Championships | Edmonton Canada | 18th (sf) | 400 m hurdles | 49.80
+3 | 2001 | Universiade | Beijing China | 8th | 400 m hurdles | 49.68
+4 | 2002 | European Indoor Championships | Vienna Austria | 1st | 400 m | 45.39 (CR NR)
+5 | 2002 | European Indoor Championships | Vienna Austria | 1st | 4x400 m relay | 3:05.50 (CR)
+6 | 2002 | European Championships | Munich Germany | 4th | 400 m | 45.40
+7 | 2002 | European Championships | Munich Germany | 8th | 4x400 m relay | DQ
+8 | 2003 | World Indoor Championships | Birmingham United Kingdom | 7th (sf) | 400 m | 46.82
+9 | 2003 | World Indoor Championships | Birmingham United Kingdom | 3rd | 4x400 m relay | 3:06.61
+10 | 2003 | European U23 Championships | Bydgoszcz Poland | 1st | 400 m hurdles | 48.45
+11 | 2003 | European U23 Championships | Bydgoszcz Poland | 1st | 4x400 m relay | 3:03.32
+12 | 2004 | Olympic Games | Athens Greece | 6th | 400 m hurdles | 49.00
+13 | 2004 | Olympic Games | Athens Greece | 10th (h) | 4x400 m relay | 3:03.69
+14 | 2006 | European Championships | Gothenburg Sweden | 2nd | 400 m hurdles | 48.71
+15 | 2007 | World Championships | Osaka Japan | 3rd | 400 m hurdles | 48.12 (NR)
+16 | 2007 | World Championships | Osaka Japan | 3rd | 4x400 m relay | 3:00.05
+17 | 2008 | Olympic Games | Beijing China | 6th | 400 m hurdles | 48.42
+18 | 2008 | Olympic Games | Beijing China | 7th | 4x400 m relay | 3:00.32
+19 | 2012 | European Championships | Helsinki Finland | 18th (sf) | 400 m hurdles | 50.77
+Question: in which competition did plawgo compete after the 1999 european junior championships?
+A: To find the answer to this question, let’s think step by step.
+[Fallback] Raw Response: 1. From the summary, we know that Marek Plawgo competed in various events in different years and competitions.
+2. Looking at the full table, Marek Plawgo competed in the World Junior Championships in 2000 after the 1999 European Junior Championships.
+3. Therefore, Marek Plawgo competed in the World Junior Championships in 2000 after the 1999 European Junior Championships.
+
+Final Answer: World Junior Championships
+[Fallback] Prediction: world junior championships
+[Gold Answer] world junior championships
+

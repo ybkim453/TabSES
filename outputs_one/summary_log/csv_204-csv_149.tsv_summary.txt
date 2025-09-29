@@ -1,0 +1,16 @@
+**Column Analysis:**
+
+1. **Description Losses:**
+   - Data type: Categorical
+   - 4 representative example values: Deaths In Prisons & Camps, Deaths Outside of Prisons & Camps, Murdered in Eastern Regions, Deaths other countries
+   - Role of the column: Descriptor
+
+2. **1939/40, 1940/41, 1941/42, 1942/43, 1943/44, 1944/45, Total:**
+   - Data type: Numeric
+   - 4 representative example values: 69,000, 210,000, 220,000, 266,000
+   - Role of the column: Measure
+
+**Outlier Row Analysis:**
+
+1. **Row 6 (Total):**
+   - This row is an **aggregate row** representing totals across all categories. It must be excluded from calculations unless the question explicitly asks for totals.

@@ -1,0 +1,60 @@
+**Column Analysis:**
+
+1. Season
+   - Data type: Numeric
+   - 4 representative example values: 1981, 1985, 1992, 2006
+   - Role: Identifier for the year in which the team's season took place.
+
+2. Team
+   - Data type: Categorical
+   - 4 representative example values: San Francisco 49ers, Chicago Bears, Dallas Cowboys, New Orleans Saints
+   - Role: Descriptor for the team participating in the season.
+
+3. Record
+   - Data type: Categorical
+   - 4 representative example values: 13–3, 15–1, 12–4, 13–3
+   - Role: Measure of the team's performance during the season.
+
+4. Head Coach
+   - Data type: Categorical
+   - 4 representative example values: Bill Walsh, Mike Ditka, Jimmy Johnson, Lovie Smith
+   - Role: Descriptor for the head coach of the team.
+
+5. Quarterback
+   - Data type: Categorical
+   - 4 representative example values: Joe Montana, Jim McMahon, Troy Aikman, Rex Grossman
+   - Role: Descriptor for the team's starting quarterback.
+
+6. Leading Rusher
+   - Data type: Categorical
+   - 4 representative example values: Ricky Patton, Walter Payton, Emmitt Smith, Thomas Jones
+   - Role: Descriptor for the player who led the team in rushing yards during the season.
+
+7. Leading Receiver
+   - Data type: Categorical
+   - 4 representative example values: Dwight Clark, Willie Gault, Michael Irvin, Muhsin Muhammad
+   - Role: Descriptor for the player who led the team in receiving yards during the season.
+
+8. All-Pros
+   - Data type: Categorical
+   - 4 representative example values: Dean*, Dent*, Smith*, Williams
+   - Role: Descriptor for players who were selected as All-Pros during the season.
+
+9. Runner Up
+   - Data type: Categorical
+   - 4 representative example values: Dallas Cowboys, Los Angeles Rams, San Francisco 49ers, New Orleans Saints
+   - Role: Descriptor for the team that finished as the runner-up in the season.
+
+**Outlier Row Analysis:**
+
+1. Row 9:
+   - The values "Dallas Cowboys" in the Runner Up column make this row an outlier.
+   - This row is not an outlier as "Dallas Cowboys" is a common team name in the table.
+
+2. Row 36:
+   - The values "New Orleans Saints" in the Runner Up column make this row an outlier.
+   - This row is not an outlier as "New Orleans Saints" is a common team name in the table.
+
+3. Row 15:
+   - The values "Chicago Bears" in the Team column make this row an outlier.
+   - This row is not an outlier as "Chicago Bears" is a common team name in the table.

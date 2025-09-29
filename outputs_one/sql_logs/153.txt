@@ -1,0 +1,120 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Ship
+   - Data type: Categorical
+   - 4 representative example values: Plymouth, Charles S. Price, Regina, Issac M. Scott
+   - Role: Identifier
+
+2. Type of Vessel
+   - Data type: Categorical
+   - 4 representative example values: Barge, Steamer, Lightship
+   - Role: Descriptor
+
+3. Lake
+   - Data type: Categorical
+   - 4 representative example values: Lake Michigan, Lake Huron, Lake Erie
+   - Role: Descriptor
+
+4. Location
+   - Data type: Categorical
+   - 4 representative example values: nan, near Port Huron, Michigan, near Harbor Beach, Michigan
+   - Role: Descriptor
+
+5. Lives lost
+   - Data type: Categorical
+   - 4 representative example values: 7 lost, 28 lost, 6 lost
+   - Role: Measure
+
+**Outlier Row Analysis:**
+
+1. Row 5 (Lightship No. 82)
+   - The value "Point Albino (near Buffalo)" in the Location column is different from the other locations mentioned in the table, which are near specific towns or cities. This makes the row an outlier.
+
+2. Row 11
+   - The value "nan" in the Location column is not a specific location like the other entries. This could indicate missing data, making this row an outlier.
+
+3. Row 7 (Regina)
+   - The value "nan" in the Lives lost column indicates missing data, which is different from the other entries that have a specific number of lives lost. This makes the row an outlier.
+
+=== Full Table Preview ===
+|   row_number | Ship             | Type of Vessel   | Lake          | Location                        | Lives lost   |
+|-------------:|:-----------------|:-----------------|:--------------|:--------------------------------|:-------------|
+|            0 | Argus            | Steamer          | Lake Huron    | 25 miles off Kincardine Ontario | 25 lost      |
+|            1 | James Carruthers | Steamer          | Lake Huron    | near Kincardine                 | 18 lost      |
+|            2 | Hydrus           | Steamer          | Lake Huron    | near Lexington Michigan         | 28 lost      |
+|            3 | Leafield         | Steamer          | Lake Superior |                                 | all hands    |
+|            4 | John A. McGean   | Steamer          | Lake Huron    | near Goderich Ontario           | 28 lost      |
+|            5 | Plymouth         | Barge            | Lake Michigan |                                 | 7 lost       |
+|            6 | Charles S. Price | Steamer          | Lake Huron    | near Port Huron Michigan        | 28 lost      |
+|            7 | Regina           | Steamer          | Lake Huron    | near Harbor Beach Michigan      |              |
+|            8 | Issac M. Scott   | Steamer          | Lake Huron    | near Port Elgin Ontario         | 28 lost      |
+|            9 | Henry B. Smith   | Steamer          | Lake Superior |                                 | all hands    |
+|           10 | Wexford          | Steamer          | Lake Huron    | north of Grand Bend Ontario     | all hands    |
+|           11 | Lightship No. 82 | Lightship        | Lake Erie     | Point Albino (near Buffalo)     | 6 lost       |
+
+Generated Reasoning SQL: Explanation: To determine the last type of vessel listed in the table, we need to focus on the "Type of Vessel" column, which is categorical and contains different types of vessels such as Barge, Steamer, and Lightship. We should consider all rows in the table, including outliers, as the question does not specify excluding any specific rows based on the outlier analysis.
+
+SQL: 
+SELECT "Type of Vessel"
+FROM T
+ORDER BY row_number DESC
+LIMIT 1;
+Generated Final SQL: SELECT "Type of Vessel" FROM T ORDER BY row_number DESC LIMIT 1;
+SQL 실행 결과 셀 수: 1
+=== SQL 실행 결과 미리보기 ===
+| Type of Vessel   |
+|:-----------------|
+| Lightship        |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- Always write a short reasoning step before the Final Answer.
+- If one cell is returned: briefly confirm it is the only result.
+- If multiple rows/columns: reason step by step to filter or choose.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: List of storms on the Great Lakes
+SQL: SELECT "Type of Vessel" FROM T ORDER BY row_number DESC LIMIT 1;
+
+SQL Execution Result:
+Type of Vessel
+Lightship
+
+Question: what is the last type of vessel listed?
+A: To find the answer to this question, let’s think step by step.
+Prediction: lightship
+[Gold Answer] lightship
+

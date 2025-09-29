@@ -1,0 +1,93 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. **Description Losses:**
+   - Data type: Categorical
+   - 4 representative example values: Deaths In Prisons & Camps, Deaths Outside of Prisons & Camps, Murdered in Eastern Regions, Deaths other countries
+   - Role of the column: Descriptor
+
+2. **1939/40, 1940/41, 1941/42, 1942/43, 1943/44, 1944/45, Total:**
+   - Data type: Numeric
+   - 4 representative example values: 69,000, 210,000, 220,000, 266,000
+   - Role of the column: Measure
+
+**Outlier Row Analysis:**
+
+1. **Row 6 (Total):**
+   - This row is an **aggregate row** representing totals across all categories. It must be excluded from calculations unless the question explicitly asks for totals.
+
+=== Full Table Preview ===
+|   row_number | Description Losses                |   1939/40 |   1940/41 |   1941/42 |   1942/43 |   1943/44 |   1944/45 |   Total |
+|-------------:|:----------------------------------|----------:|----------:|----------:|----------:|----------:|----------:|--------:|
+|            0 | Direct War Losses                 |    360000 |       nan |       nan |       nan |       nan |    183000 |  543000 |
+|            1 | Murdered                          |     75000 |    100000 |    116000 |    133000 |     82000 |       nan |  506000 |
+|            2 | Deaths In Prisons & Camps         |     69000 |    210000 |    220000 |    266000 |    381000 |       nan | 1146000 |
+|            3 | Deaths Outside of Prisons & Camps |       nan |     42000 |     71000 |    142000 |    218000 |       nan |  473000 |
+|            4 | Murdered in Eastern Regions       |       nan |       nan |       nan |       nan |       nan |    100000 |  100000 |
+|            5 | Deaths other countries            |       nan |       nan |       nan |       nan |       nan |       nan |    2000 |
+|            6 | Total                             |    504000 |    352000 |    407000 |    541000 |    681000 |    270000 | 2770000 |
+
+Generated Reasoning SQL: Explanation: To find the total number of deaths outside of prisons and camps, we need to sum the values in the "Deaths Outside of Prisons & Camps" column. The summary indicates that this column contains numeric values and the row "Deaths Outside of Prisons & Camps" represents deaths in this category. We should exclude the aggregate row labeled as "Total" as it represents cumulative statistics. 
+
+SQL: 
+SELECT SUM(CAST("Deaths Outside of Prisons & Camps" AS INTEGER)) AS total_deaths_outside_prisons_camps
+FROM T;
+Generated Final SQL: SELECT SUM(CAST("Deaths Outside of Prisons & Camps" AS INTEGER)) AS total_deaths_outside_prisons_camps FROM T;
+SQL 실행 결과 셀 수: 1
+=== SQL 실행 결과 미리보기 ===
+|   total_deaths_outside_prisons_camps |
+|-------------------------------------:|
+|                                    0 |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- If one cell is returned, use it directly.
+- If multiple rows/columns, reason step by step over the SQL result to select, count, or summarize per the question.
+- Never apologize; the SQL result always has the answer.
+- Return values exactly as in the result, unless a transformation (count, difference, etc.) is explicitly asked.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: World War II casualties of Poland
+SQL: SELECT SUM(CAST("Deaths Outside of Prisons & Camps" AS INTEGER)) AS total_deaths_outside_prisons_camps FROM T;
+
+SQL Execution Result:
+total_deaths_outside_prisons_camps
+0
+
+Question: what is the total number of deaths outside of prisons and camps?
+A: To find the answer to this question, let’s think step by step.
+Prediction: 0
+[Gold Answer] 473,000
+

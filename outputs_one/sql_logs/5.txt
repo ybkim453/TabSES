@@ -1,0 +1,126 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Rank:
+   - Data type: Numeric
+   - 4 representative example values: 2, 3, 5, 7
+   - Role: Identifier
+
+2. Cyclist:
+   - Data type: Categorical
+   - 4 representative example values: Alexandr Kolobnev (RUS), Davide Rebellin (ITA), Franco Pellizotti (ITA), Samuel Sánchez (ESP)
+   - Role: Descriptor
+
+3. Team:
+   - Data type: Categorical
+   - 4 representative example values: Team CSC Saxo Bank, Gerolsteiner, Liquigas, Euskaltel-Euskadi
+   - Role: Descriptor
+
+4. Time:
+   - Data type: Categorical
+   - 4 representative example values: s.t., + 2"
+   - Role: Measure
+
+5. UCI ProTour Points:
+   - Data type: Numeric
+   - 4 representative example values: 30, 25, 15, 7
+   - Role: Measure
+
+**Outlier Row Analysis:**
+
+1. Row 0:
+   - The values in this row are not significantly different from the majority of the table. Therefore, this row is an ordinary row and does not require special handling.
+
+2. Row 9:
+   - The value "+ 2"" in the Time column is different from the majority of the table, which mostly has "s.t." This makes the row an outlier in terms of the Time column.
+
+3. Row 1:
+   - The values in this row are not significantly different from the majority of the table. Therefore, this row is an ordinary row and does not require special handling.
+
+=== Full Table Preview ===
+|   row_number |   Rank | Cyclist                  | Team               | Time       |   UCI ProTour\nPoints |
+|-------------:|-------:|:-------------------------|:-------------------|:-----------|----------------------:|
+|            0 |      1 | Alejandro Valverde (ESP) | Caisse d'Epargne   | 5h 29' 10" |                    40 |
+|            1 |      2 | Alexandr Kolobnev (RUS)  | Team CSC Saxo Bank | s.t.       |                    30 |
+|            2 |      3 | Davide Rebellin (ITA)    | Gerolsteiner       | s.t.       |                    25 |
+|            3 |      4 | Paolo Bettini (ITA)      | Quick Step         | s.t.       |                    20 |
+|            4 |      5 | Franco Pellizotti (ITA)  | Liquigas           | s.t.       |                    15 |
+|            5 |      6 | Denis Menchov (RUS)      | Rabobank           | s.t.       |                    11 |
+|            6 |      7 | Samuel Sánchez (ESP)     | Euskaltel-Euskadi  | s.t.       |                     7 |
+|            7 |      8 | Stéphane Goubert (FRA)   | Ag2r-La Mondiale   | + 2"       |                     5 |
+|            8 |      9 | Haimar Zubeldia (ESP)    | Euskaltel-Euskadi  | + 2"       |                     3 |
+|            9 |     10 | David Moncoutié (FRA)    | Cofidis            | + 2"       |                     1 |
+
+Generated Reasoning SQL: The summary provides information about the "Cyclist" column, which is categorical and contains the names of cyclists along with their country codes. The "Rank" column is numeric and represents the position of each cyclist in the race. To find other cyclists in the top 10 who hailed from the same country as the winner, we need to identify the country of the winner first and then filter the top 10 cyclists based on that country.
+
+To achieve this, we first need to extract the country code from the "Cyclist" column for the winner (Rank = 1). Then, we filter the top 10 cyclists excluding the winner (Rank > 1) who have the same country code as the winner.
+
+SQL: 
+WITH WinnerCountry AS (
+    SELECT SUBSTR("Cyclist", -5, 3) AS WinnerCountry
+    FROM T
+    WHERE "Rank" = 1
+)
+SELECT "Cyclist"
+FROM T, WinnerCountry
+WHERE "Rank" > 1 AND SUBSTR("Cyclist", -5, 3) = WinnerCountry.WinnerCountry;
+Generated Final SQL: WITH WinnerCountry AS ( SELECT SUBSTR("Cyclist", -5, 3) AS WinnerCountry FROM T WHERE "Rank" = 1 ) SELECT "Cyclist" FROM T, WinnerCountry WHERE "Rank" > 1 AND SUBSTR("Cyclist", -5, 3) = WinnerCountry.WinnerCountry;
+SQL 실행 결과 셀 수: 2
+=== SQL 실행 결과 미리보기 ===
+| Cyclist               |
+|:----------------------|
+| Samuel Sánchez (ESP)  |
+| Haimar Zubeldia (ESP) |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- If one cell is returned, use it directly.
+- If multiple rows/columns, reason step by step over the SQL result to select, count, or summarize per the question.
+- Never apologize; the SQL result always has the answer.
+- Return values exactly as in the result, unless a transformation (count, difference, etc.) is explicitly asked.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: 2008 Clásica de San Sebastián
+SQL: WITH WinnerCountry AS ( SELECT SUBSTR("Cyclist", -5, 3) AS WinnerCountry FROM T WHERE "Rank" = 1 ) SELECT "Cyclist" FROM T, WinnerCountry WHERE "Rank" > 1 AND SUBSTR("Cyclist", -5, 3) = WinnerCountry.WinnerCountry;
+
+SQL Execution Result:
+Cyclist
+Samuel Sánchez (ESP)
+Haimar Zubeldia (ESP)
+
+Question: which other cyclists in the top 10 hailed from the same country as the winner?
+A: To find the answer to this question, let’s think step by step.
+Prediction: samuel sánchez (esp),haimar zubeldia (esp)
+[Gold Answer] samuel sánchez (esp),haimar zubeldia (esp)
+

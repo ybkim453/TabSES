@@ -1,0 +1,40 @@
+**Column Analysis:**
+
+1. Year
+   - Data type: Categorical
+   - 4 representative example values: 1997–1999, 1999–2004, 2008–, 2011–2013
+   - Role: Identifier
+
+2. Kit Manufacturer
+   - Data type: Categorical
+   - 4 representative example values: Errea
+   - Role: Descriptor
+
+3. Shirt Sponsor
+   - Data type: Categorical
+   - 4 representative example values: Endsleigh Insurance, Towergate Insurance, Mira Showers
+   - Role: Descriptor
+
+4. Back of Shirt Sponsor
+   - Data type: Categorical
+   - 4 representative example values: nan, Barr Stadia, Gloucestershire College
+   - Role: Descriptor
+
+5. Short Sponsor
+   - Data type: Categorical
+   - 4 representative example values: nan, Gloucestershire Echo
+   - Role: Descriptor
+
+**Outlier Row Analysis:**
+
+1. Row 16:
+   - Distinctive values: Year = 2013–, Kit Manufacturer = Errea, Shirt Sponsor = Mira Showers, Back of Shirt Sponsor = Gloucestershire College, Short Sponsor = Gloucestershire Echo
+   - Explanation: This row is not an outlier as it contains values that are consistent with other entries in the table.
+
+2. Row 15:
+   - Distinctive values: Year = 2011–2013, Kit Manufacturer = Errea, Shirt Sponsor = Mira Showers, Back of Shirt Sponsor = Barr Stadia, Short Sponsor = Gloucestershire Echo
+   - Explanation: This row is not an outlier as it contains values that are consistent with other entries in the table.
+
+3. Row 3:
+   - Distinctive values: Year = 2008–, Kit Manufacturer = Errea, Shirt Sponsor = Mira Showers
+   - Explanation: This row is not an outlier as it contains values that are consistent with other entries in the table.

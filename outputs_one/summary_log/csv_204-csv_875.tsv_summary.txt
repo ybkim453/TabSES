@@ -1,0 +1,64 @@
+**Column Analysis:**
+
+1. Game
+   - Data type: Numeric
+   - 4 representative example values: 6, 10, 11, 12
+   - Role: Identifier for each game in the table
+
+2. Day
+   - Data type: Categorical
+   - 4 representative example values: Sunday, Friday
+   - Role: Descriptor indicating the day of the week the game took place
+
+3. Date
+   - Data type: Categorical
+   - 4 representative example values: December 15, January 12, January 19, January 26
+   - Role: Descriptor specifying the date of the game
+
+4. Kickoff
+   - Data type: Categorical
+   - 4 representative example values: 6:00pm, 1:05pm, 7:05pm
+   - Role: Descriptor indicating the time the game started
+
+5. Opponent
+   - Data type: Categorical
+   - 4 representative example values: Bay Area Rosal, Las Vegas Legends, Sacramento Surge, Turlock Express
+   - Role: Descriptor specifying the opposing team
+
+6. Results\nScore
+   - Data type: Categorical
+   - 4 representative example values: L 8–9 (OT), W 10–7, W 17–7, W 20–6
+   - Role: Descriptor showing the outcome and score of the game
+
+7. Results\nRecord
+   - Data type: Categorical
+   - 4 representative example values: 3–3, 5–5, 6–5, 7–5
+   - Role: Descriptor indicating the team's overall record after the game
+
+8. Location
+   - Data type: Categorical
+   - 4 representative example values: Cabernet Indoor Sports, UniSantos Park, Turlock Soccer Complex
+   - Role: Descriptor specifying the venue of the game
+
+9. Attendance
+   - Data type: Numeric
+   - 4 representative example values: 480, 343, 219, 224
+   - Role: Measure representing the number of spectators at the game
+
+**Outlier Row Analysis:**
+
+1. Row 0:
+   - The game was played at Bay Area Rosal, which is different from the majority of games played at UniSantos Park.
+   - The attendance of 480 is significantly higher compared to the other attendance values.
+   - These differences make Row 0 an outlier.
+
+2. Row 13:
+   - The game was played at Turlock Soccer Complex, which is different from the majority of games played at UniSantos Park.
+   - The attendance of 673 is notably higher than the other attendance values.
+   - These differences make Row 13 an outlier.
+
+3. Row 5:
+   - The game was played at Turlock Express, which is different from the majority of games played at UniSantos Park.
+   - The score of L 6–9 is within the range of other scores in the table.
+   - The attendance of 673 is significantly higher compared to the other attendance values.
+   - The score being ordinary and the attendance being significantly higher make Row 5 an ordinary row.

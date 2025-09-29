@@ -1,0 +1,151 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Game
+   - Data type: Numeric
+   - 4 representative example values: 6, 10, 11, 12
+   - Role: Identifier for each game in the table
+
+2. Day
+   - Data type: Categorical
+   - 4 representative example values: Sunday, Friday
+   - Role: Descriptor indicating the day of the week the game took place
+
+3. Date
+   - Data type: Categorical
+   - 4 representative example values: December 15, January 12, January 19, January 26
+   - Role: Descriptor specifying the date of the game
+
+4. Kickoff
+   - Data type: Categorical
+   - 4 representative example values: 6:00pm, 1:05pm, 7:05pm
+   - Role: Descriptor indicating the time the game started
+
+5. Opponent
+   - Data type: Categorical
+   - 4 representative example values: Bay Area Rosal, Las Vegas Legends, Sacramento Surge, Turlock Express
+   - Role: Descriptor specifying the opposing team
+
+6. Results\nScore
+   - Data type: Categorical
+   - 4 representative example values: L 8–9 (OT), W 10–7, W 17–7, W 20–6
+   - Role: Descriptor showing the outcome and score of the game
+
+7. Results\nRecord
+   - Data type: Categorical
+   - 4 representative example values: 3–3, 5–5, 6–5, 7–5
+   - Role: Descriptor indicating the team's overall record after the game
+
+8. Location
+   - Data type: Categorical
+   - 4 representative example values: Cabernet Indoor Sports, UniSantos Park, Turlock Soccer Complex
+   - Role: Descriptor specifying the venue of the game
+
+9. Attendance
+   - Data type: Numeric
+   - 4 representative example values: 480, 343, 219, 224
+   - Role: Measure representing the number of spectators at the game
+
+**Outlier Row Analysis:**
+
+1. Row 0:
+   - The game was played at Bay Area Rosal, which is different from the majority of games played at UniSantos Park.
+   - The attendance of 480 is significantly higher compared to the other attendance values.
+   - These differences make Row 0 an outlier.
+
+2. Row 13:
+   - The game was played at Turlock Soccer Complex, which is different from the majority of games played at UniSantos Park.
+   - The attendance of 673 is notably higher than the other attendance values.
+   - These differences make Row 13 an outlier.
+
+3. Row 5:
+   - The game was played at Turlock Express, which is different from the majority of games played at UniSantos Park.
+   - The score of L 6–9 is within the range of other scores in the table.
+   - The attendance of 673 is significantly higher compared to the other attendance values.
+   - The score being ordinary and the attendance being significantly higher make Row 5 an ordinary row.
+
+=== Full Table Preview ===
+|   row_number |   Game | Day      | Date         | Kickoff   | Opponent             | Results\nScore   | Results\nRecord   | Location                     |   Attendance |
+|-------------:|-------:|:---------|:-------------|:----------|:---------------------|:-----------------|:------------------|:-----------------------------|-------------:|
+|            0 |      1 | Sunday   | November 10  | 3:05pm    | at Las Vegas Legends | L 3–7            | 0–1               | Orleans Arena                |         1836 |
+|            1 |      2 | Sunday   | November 17  | 1:05pm    | Monterrey Flash      | L 6–10           | 0–2               | UniSantos Park               |          363 |
+|            2 |      3 | Saturday | November 23  | 7:05pm    | at Bay Area Rosal    | W 10–7           | 1–2               | Cabernet Indoor Sports       |          652 |
+|            3 |      4 | Sunday   | December 1   | 1:05pm    | Ontario Fury         | W 18–4           | 2–2               | UniSantos Park               |          207 |
+|            4 |      5 | Saturday | December 14  | 7:05pm    | at Sacramento Surge  | W 7–6 (OT)       | 3–2               | Estadio Azteca Soccer Arena  |          215 |
+|            5 |      6 | Sunday   | December 15  | 6:00pm    | at Bay Area Rosal    | L 8–9 (OT)       | 3–3               | Cabernet Indoor Sports       |          480 |
+|            6 |      7 | Sunday   | December 22  | 1:05pm    | Turlock Express      | W 16–8           | 4–3               | UniSantos Park               |          218 |
+|            7 |      8 | Saturday | January 4    | 7:05pm    | at Ontario Fury      | L 5–12           | 4–4               | Citizens Business Bank Arena |         2653 |
+|            8 |      9 | Sunday   | January 5    | 1:05pm    | San Diego Sockers    | L 7–12           | 4–5               | UniSantos Park               |          388 |
+|            9 |     10 | Sunday   | January 12   | 1:05pm    | Las Vegas Legends    | W 10–7           | 5–5               | UniSantos Park               |          343 |
+|           10 |     11 | Sunday   | January 19   | 1:05pm    | Bay Area Rosal       | W 17–7           | 6–5               | UniSantos Park               |          219 |
+|           11 |     12 | Sunday   | January 26   | 1:05pm    | Sacramento Surge     | W 20–6           | 7–5               | UniSantos Park               |          224 |
+|           12 |     13 | Saturday | February 1   | 7:05pm    | at San Diego Sockers | L 5–6            | 7–6               | Valley View Casino Center    |         4954 |
+|           13 |     14 | Friday   | February 7   | 7:05pm    | at Turlock Express   | L 6–9            | 7–7               | Turlock Soccer Complex       |          673 |
+|           14 |     15 | Saturday | February 8   | 7:05pm    | at Sacramento Surge  | W 10–6           | 8–7               | Estadio Azteca Soccer Arena  |          323 |
+|           15 |     16 | Saturday | February 15♥ | 5:05pm    | Bay Area Rosal       | W 27–2           | 9–7               | UniSantos Park               |          118 |
+
+Generated Reasoning SQL: Explanation: To find the attendance for the Toros Mexico vs. Turlock Express game, we need to filter the row where the "Opponent" is Turlock Express. The attendance column contains numeric values representing the number of spectators at each game.
+
+SQL: SELECT "Attendance" 
+FROM T 
+WHERE "Opponent" LIKE '%Turlock Express%';
+Generated Final SQL: SELECT "Attendance" FROM T WHERE "Opponent" LIKE '%Turlock Express%';
+SQL 실행 결과 셀 수: 2
+=== SQL 실행 결과 미리보기 ===
+|   Attendance |
+|-------------:|
+|          218 |
+|          673 |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- Always write a short reasoning step before the Final Answer.
+- If one cell is returned: briefly confirm it is the only result.
+- If multiple rows/columns: reason step by step to filter or choose.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: 2013–14 Toros Mexico season
+SQL: SELECT "Attendance" FROM T WHERE "Opponent" LIKE '%Turlock Express%';
+
+SQL Execution Result:
+Attendance
+218
+673
+
+Question: how many people attended the toros mexico vs. turlock express game?
+A: To find the answer to this question, let’s think step by step.
+Prediction: 218, 673
+[Gold Answer] 218
+

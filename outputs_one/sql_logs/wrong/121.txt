@@ -1,0 +1,129 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Year:
+   - Data type: Numeric
+   - 4 representative example values: 2002, 2003, 2004, 2007
+   - Role: Identifier for the year in which the competition took place.
+
+2. Competition:
+   - Data type: Categorical
+   - 4 representative example values: European Indoor Championships, European U23 Championships, Olympic Games, World Championships
+   - Role: Descriptor of the type of competition.
+
+3. Venue:
+   - Data type: Categorical
+   - 4 representative example values: Vienna, Austria, Bydgoszcz, Poland, Athens, Greece, Osaka, Japan
+   - Role: Descriptor of the location where the competition was held.
+
+4. Position:
+   - Data type: Categorical
+   - 4 representative example values: 1st, 10th (h), 3rd, 6th
+   - Role: Descriptor of the athlete's position in the event.
+
+5. Event:
+   - Data type: Categorical
+   - 4 representative example values: 400 m, 400 m hurdles, 4x400 m relay
+   - Role: Descriptor of the specific event in which the athlete participated.
+
+6. Notes:
+   - Data type: Categorical
+   - 4 representative example values: 45.39 (CR, NR), 48.45, 3:03.69, 48.12 (NR)
+   - Role: Additional information or notes related to the athlete's performance in the event.
+
+**Outlier Row Analysis:**
+
+1. Row 4:
+   - The position "10th (h)" in the Olympic Games is significantly lower compared to the other positions in the table, making this row an outlier.
+
+2. Row 13:
+   - The time of "3:03.69" for the 4x400 m relay is notably different from the other times in the table, indicating a slower performance and making this row an outlier.
+
+3. Row 1:
+   - The time of "45.39 (CR, NR)" for the 400 m event is a record-breaking time (CR, NR), which sets it apart from the other times in the table, making this row an outlier.
+
+=== Full Table Preview ===
+|   row_number |   Year | Competition                   | Venue                     | Position   | Event         | Notes         |
+|-------------:|-------:|:------------------------------|:--------------------------|:-----------|:--------------|:--------------|
+|            0 |   1999 | European Junior Championships | Riga Latvia               | 4th        | 400 m hurdles | 52.17         |
+|            1 |   2000 | World Junior Championships    | Santiago Chile            | 1st        | 400 m hurdles | 49.23         |
+|            2 |   2001 | World Championships           | Edmonton Canada           | 18th (sf)  | 400 m hurdles | 49.80         |
+|            3 |   2001 | Universiade                   | Beijing China             | 8th        | 400 m hurdles | 49.68         |
+|            4 |   2002 | European Indoor Championships | Vienna Austria            | 1st        | 400 m         | 45.39 (CR NR) |
+|            5 |   2002 | European Indoor Championships | Vienna Austria            | 1st        | 4x400 m relay | 3:05.50 (CR)  |
+|            6 |   2002 | European Championships        | Munich Germany            | 4th        | 400 m         | 45.40         |
+|            7 |   2002 | European Championships        | Munich Germany            | 8th        | 4x400 m relay | DQ            |
+|            8 |   2003 | World Indoor Championships    | Birmingham United Kingdom | 7th (sf)   | 400 m         | 46.82         |
+|            9 |   2003 | World Indoor Championships    | Birmingham United Kingdom | 3rd        | 4x400 m relay | 3:06.61       |
+|           10 |   2003 | European U23 Championships    | Bydgoszcz Poland          | 1st        | 400 m hurdles | 48.45         |
+|           11 |   2003 | European U23 Championships    | Bydgoszcz Poland          | 1st        | 4x400 m relay | 3:03.32       |
+|           12 |   2004 | Olympic Games                 | Athens Greece             | 6th        | 400 m hurdles | 49.00         |
+|           13 |   2004 | Olympic Games                 | Athens Greece             | 10th (h)   | 4x400 m relay | 3:03.69       |
+|           14 |   2006 | European Championships        | Gothenburg Sweden         | 2nd        | 400 m hurdles | 48.71         |
+|           15 |   2007 | World Championships           | Osaka Japan               | 3rd        | 400 m hurdles | 48.12 (NR)    |
+|           16 |   2007 | World Championships           | Osaka Japan               | 3rd        | 4x400 m relay | 3:00.05       |
+|           17 |   2008 | Olympic Games                 | Beijing China             | 6th        | 400 m hurdles | 48.42         |
+|           18 |   2008 | Olympic Games                 | Beijing China             | 7th        | 4x400 m relay | 3:00.32       |
+|           19 |   2012 | European Championships        | Helsinki Finland          | 18th (sf)  | 400 m hurdles | 50.77         |
+
+Generated Reasoning SQL: Explanation: To determine the total number of competitions listed, we need to count the distinct values in the "Competition" column. Since each row represents a unique competition, we can simply count all rows without excluding any outliers or placeholder rows.
+
+SQL: SELECT COUNT("Competition") AS total_competitions FROM T;
+Generated Final SQL: SELECT COUNT("Competition") AS total_competitions FROM T;
+SQL 실행 결과 셀 수: 1
+=== SQL 실행 결과 미리보기 ===
+|   total_competitions |
+|---------------------:|
+|                   20 |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- Always write a short reasoning step before the Final Answer.
+- If one cell is returned: briefly confirm it is the only result.
+- If multiple rows/columns: reason step by step to filter or choose.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: Marek Plawgo
+SQL: SELECT COUNT("Competition") AS total_competitions FROM T;
+
+SQL Execution Result:
+total_competitions
+20
+
+Question: how many total competitions are listed?
+A: To find the answer to this question, let’s think step by step.
+Prediction: 20
+[Gold Answer] 13
+

@@ -1,0 +1,42 @@
+**Column Analysis:**
+
+1. Year:
+   - Data type: Numeric
+   - 4 representative example values: 2002, 2003, 2004, 2007
+   - Role: Identifier for the year in which the competition took place.
+
+2. Competition:
+   - Data type: Categorical
+   - 4 representative example values: European Indoor Championships, European U23 Championships, Olympic Games, World Championships
+   - Role: Descriptor of the type of competition.
+
+3. Venue:
+   - Data type: Categorical
+   - 4 representative example values: Vienna, Austria, Bydgoszcz, Poland, Athens, Greece, Osaka, Japan
+   - Role: Descriptor of the location where the competition was held.
+
+4. Position:
+   - Data type: Categorical
+   - 4 representative example values: 1st, 10th (h), 3rd, 6th
+   - Role: Descriptor of the athlete's position in the event.
+
+5. Event:
+   - Data type: Categorical
+   - 4 representative example values: 400 m, 400 m hurdles, 4x400 m relay
+   - Role: Descriptor of the specific event in which the athlete participated.
+
+6. Notes:
+   - Data type: Categorical
+   - 4 representative example values: 45.39 (CR, NR), 48.45, 3:03.69, 48.12 (NR)
+   - Role: Additional information or notes related to the athlete's performance in the event.
+
+**Outlier Row Analysis:**
+
+1. Row 4:
+   - The position "10th (h)" in the Olympic Games is significantly lower compared to the other positions in the table, making this row an outlier.
+
+2. Row 13:
+   - The time of "3:03.69" for the 4x400 m relay is notably different from the other times in the table, indicating a slower performance and making this row an outlier.
+
+3. Row 1:
+   - The time of "45.39 (CR, NR)" for the 400 m event is a record-breaking time (CR, NR), which sets it apart from the other times in the table, making this row an outlier.

@@ -1,0 +1,37 @@
+**Column Analysis:**
+
+1. Ship
+   - Data type: Categorical
+   - 4 representative example values: Plymouth, Charles S. Price, Regina, Issac M. Scott
+   - Role: Identifier
+
+2. Type of Vessel
+   - Data type: Categorical
+   - 4 representative example values: Barge, Steamer, Lightship
+   - Role: Descriptor
+
+3. Lake
+   - Data type: Categorical
+   - 4 representative example values: Lake Michigan, Lake Huron, Lake Erie
+   - Role: Descriptor
+
+4. Location
+   - Data type: Categorical
+   - 4 representative example values: nan, near Port Huron, Michigan, near Harbor Beach, Michigan
+   - Role: Descriptor
+
+5. Lives lost
+   - Data type: Categorical
+   - 4 representative example values: 7 lost, 28 lost, 6 lost
+   - Role: Measure
+
+**Outlier Row Analysis:**
+
+1. Row 5 (Lightship No. 82)
+   - The value "Point Albino (near Buffalo)" in the Location column is different from the other locations mentioned in the table, which are near specific towns or cities. This makes the row an outlier.
+
+2. Row 11
+   - The value "nan" in the Location column is not a specific location like the other entries. This could indicate missing data, making this row an outlier.
+
+3. Row 7 (Regina)
+   - The value "nan" in the Lives lost column indicates missing data, which is different from the other entries that have a specific number of lives lost. This makes the row an outlier.

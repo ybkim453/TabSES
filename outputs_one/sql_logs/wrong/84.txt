@@ -1,0 +1,138 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Year:
+   - Data type: Numeric
+   - 4 representative example values: 2011, 2012, 2014, nan
+   - Role of the column: Identifier for the year in which the film was released
+
+2. Film:
+   - Data type: Categorical
+   - 4 representative example values: Hudugaru, Alemari, Sagar, Mr. & Mrs. Ramachari
+   - Role of the column: Descriptor for the title of the film
+
+3. Role:
+   - Data type: Categorical
+   - 4 representative example values: Gayithri, Neeli, Kajal, Nandini
+   - Role of the column: Descriptor for the role played by the actress in the film
+
+4. Language:
+   - Data type: Categorical
+   - 4 representative example values: Kannada, nan
+   - Role of the column: Descriptor for the language in which the film is made
+
+5. Notes:
+   - Data type: Categorical
+   - 4 representative example values: Nominated, nan, Announced
+   - Role of the column: Descriptor for any additional notes related to the film
+
+**Outlier Row Analysis:**
+
+1. Row 15:
+   - The film "Mr. & Mrs. Ramachari" has missing values for the Role and Language columns, which is different from the majority of the table where these columns have specific values. This makes the row an outlier.
+
+2. Row 1:
+   - The film "Hudugaru" has a note mentioning the nomination for the Filmfare Award for Best Actress – Kannada, which is a specific and distinctive feature not present in other rows. This makes the row an outlier.
+
+3. Row 5:
+   - The film "Alemari" has a missing value for the Notes column, which is different from the majority of the table where this column has specific values. This makes the row an outlier.
+
+=== Full Table Preview ===
+|   row_number |   Year | Film                      | Role      | Language   | Notes                                                                                                                         |
+|-------------:|-------:|:--------------------------|:----------|:-----------|:------------------------------------------------------------------------------------------------------------------------------|
+|            0 |   2008 | Moggina Manasu            | Chanchala | Kannada    | Filmfare Award for Best Actress - Kannada\nKarnataka State Film Award for Best Actress                                        |
+|            1 |   2009 | Olave Jeevana Lekkachaara | Rukmini   | Kannada    | Innovative Film Award for Best Actress                                                                                        |
+|            2 |   2009 | Love Guru                 | Kushi     | Kannada    | Filmfare Award for Best Actress - Kannada                                                                                     |
+|            3 |   2010 | Krishnan Love Story       | Geetha    | Kannada    | Filmfare Award for Best Actress - Kannada\nUdaya Award for Best Actress                                                       |
+|            4 |   2010 | Gaana Bajaana             | Radhey    | Kannada    |                                                                                                                               |
+|            5 |   2011 | Hudugaru                  | Gayithri  | Kannada    | Nominated Filmfare Award for Best Actress – Kannada                                                                           |
+|            6 |   2012 | Alemari                   | Neeli     | Kannada    |                                                                                                                               |
+|            7 |   2012 | Breaking News             | Shraddha  | Kannada    |                                                                                                                               |
+|            8 |   2012 | Addhuri                   | Poorna    | Kannada    | Udaya Award for Best Actress\nNominated — SIIMA Award for Best Actress\nNominated — Filmfare Award for Best Actress – Kannada |
+|            9 |   2012 | 18th Cross                | Punya     | Kannada    |                                                                                                                               |
+|           10 |   2012 | Sagar                     | Kajal     | Kannada    |                                                                                                                               |
+|           11 |   2012 | Drama                     | Nandini   | Kannada    |                                                                                                                               |
+|           12 |   2013 | Kaddipudi                 | Uma       | Kannada    |                                                                                                                               |
+|           13 |   2013 | Dilwala                   | Preethi   | Kannada    |                                                                                                                               |
+|           14 |   2013 | Bahaddoor                 | Anjali    | Kannada    | Filming                                                                                                                       |
+|           15 |   2014 | Mr. & Mrs. Ramachari      |           |            | Announced                                                                                                                     |
+|           16 |   2014 | Endendigu                 |           |            | Filming                                                                                                                       |
+
+Generated Reasoning SQL: Explanation: To find a year in which no films are listed in the table, we need to identify the unique years present in the table and then check if any of those years have no corresponding films listed. We will use the "Year" column as the identifier for the year and the "Film" column to determine if any films are listed for that year.
+
+SQL: 
+SELECT "Year"
+FROM T
+GROUP BY "Year"
+HAVING COUNT("Film") = 0;
+Generated Final SQL: SELECT "Year" FROM T GROUP BY "Year" HAVING COUNT("Film") = 0;
+SQL 실행 결과 셀 수: 0
+[Fallback] SQL 결과가 없으므로 Full Table 기반 추론으로 전환
+[Fallback] Prompt SQL:
+
+The provided summary is the primary structure for interpreting the Full Table.  
+Always start by carefully examining the summary to identify which columns, data types, and special cases are relevant to the question.  
+Then, use the full table to confirm and extract the exact values based on the hints from the summary.  
+Your reasoning must explicitly combine evidence from both the summary and the full table before giving the final answer.  
+Final output must follow the format:
+Final Answer: AnswerName1, AnswerName2...
+
+How many cyclists in the top 10 were French?
+To answer this question, I will use both the summary and the full table.
+
+From the summary:
+- The **Cyclist** column is text and includes both name and nationality in parentheses, e.g., "Stéphane Goubert (FRA)".
+- Special / Atypical Rows: none were listed, so every row in the preview represents an individual cyclist.
+- Preprocessing Artifacts: none critical except "s.t." in the Time column, which stands for "same time". This does not affect nationality counting.
+
+From the full table:
+- The cyclists with "(FRA)" are:
+  1. Stéphane Goubert (Rank 8, FRA)
+  2. David Moncoutié (Rank 10, FRA)
+
+Thus, by combining the summary’s description (Cyclist column contains nationality; no atypical rows interfere)  
+with the explicit entries in the full table, we can conclude there are 2 French cyclists in the top 10.
+
+Final Answer: Stéphane Goubert, David Moncoutié
+Table: Radhika Pandit (row_number, Year, Film, Role, Language, Notes)
+
+row_number | Year | Film | Role | Language | Notes
+0 | 2008 | Moggina Manasu | Chanchala | Kannada | Filmfare Award for Best Actress - Kannada\nKarnataka State Film Award for Best Actress
+1 | 2009 | Olave Jeevana Lekkachaara | Rukmini | Kannada | Innovative Film Award for Best Actress
+2 | 2009 | Love Guru | Kushi | Kannada | Filmfare Award for Best Actress - Kannada
+3 | 2010 | Krishnan Love Story | Geetha | Kannada | Filmfare Award for Best Actress - Kannada\nUdaya Award for Best Actress
+4 | 2010 | Gaana Bajaana | Radhey | Kannada | None
+5 | 2011 | Hudugaru | Gayithri | Kannada | Nominated Filmfare Award for Best Actress – Kannada
+6 | 2012 | Alemari | Neeli | Kannada | None
+7 | 2012 | Breaking News | Shraddha | Kannada | None
+8 | 2012 | Addhuri | Poorna | Kannada | Udaya Award for Best Actress\nNominated — SIIMA Award for Best Actress\nNominated — Filmfare Award for Best Actress – Kannada
+9 | 2012 | 18th Cross | Punya | Kannada | None
+10 | 2012 | Sagar | Kajal | Kannada | None
+11 | 2012 | Drama | Nandini | Kannada | None
+12 | 2013 | Kaddipudi | Uma | Kannada | None
+13 | 2013 | Dilwala | Preethi | Kannada | None
+14 | 2013 | Bahaddoor | Anjali | Kannada | Filming
+15 | 2014 | Mr. & Mrs. Ramachari | None | None | Announced
+16 | 2014 | Endendigu | None | None | Filming
+Question: name a year in which no films are listed in the table.
+A: To find the answer to this question, let’s think step by step.
+[Fallback] Raw Response: To find a year in which no films are listed in the table, we need to examine the "Film" column in the full table provided.
+
+From the full table:
+- The years and corresponding films listed are:
+  1. 2008 - Moggina Manasu
+  2. 2009 - Olave Jeevana Lekkachaara, Love Guru
+  3. 2010 - Krishnan Love Story, Gaana Bajaana
+  4. 2011 - Hudugaru
+  5. 2012 - Alemari, Breaking News, Addhuri, 18th Cross, Sagar, Drama
+  6. 2013 - Kaddipudi, Dilwala, Bahaddoor
+  7. 2014 - Mr. & Mrs. Ramachari, Endendigu
+
+Based on the information provided in the full table, we can see that there are no films listed for the year 2011.
+
+Therefore, the year in which no films are listed in the table is 2011.
+
+Final Answer: 2011
+[Fallback] Prediction: 2011
+[Gold Answer] 2007
+

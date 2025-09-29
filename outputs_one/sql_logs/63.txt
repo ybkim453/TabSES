@@ -1,0 +1,120 @@
+=== Table Summary ===
+**Column Analysis:**
+
+1. Year:
+   - Data type: Numeric
+   - 4 representative example values: 2003, 2004, 2008, 2010
+   - Role: Identifier for the year in which the competition took place.
+
+2. Competition:
+   - Data type: Categorical
+   - 4 representative example values: All-Africa Games, African Championships, Olympic Games, World Championships
+   - Role: Descriptor for the type of competition.
+
+3. Venue:
+   - Data type: Categorical
+   - 4 representative example values: Abuja, Nigeria, Brazzaville, Republic of the Congo, Athens, Greece, Addis Ababa, Ethiopia
+   - Role: Descriptor for the location where the competition took place.
+
+4. Position:
+   - Data type: Categorical
+   - 4 representative example values: 5th, 2nd, 8th, 1st
+   - Role: Descriptor for the athlete's position in the event.
+
+5. Event:
+   - Data type: Categorical
+   - 4 representative example values: Shot put, Discus throw, Javelin throw, Hammer throw
+   - Role: Descriptor for the type of event in which the athlete participated.
+
+6. Notes:
+   - Data type: Numeric
+   - 4 representative example values: 17.76 m, 62.86 m, 63.50 m, 56.98 m
+   - Role: Measure of the performance in the event.
+
+**Outlier Row Analysis:**
+
+1. Row 1:
+   - The values for Position (5th) and Notes (17.76 m) are not significantly different from other rows in the table. This row is an ordinary entry and does not require special handling.
+
+2. Row 4:
+   - The value for Position (8th) is not uncommon in sports competitions. The performance in the Discus throw (62.58 m) is also within the range of other entries. This row is an ordinary entry and does not require special handling.
+
+3. Row 0:
+   - The values for Position (2nd) and Notes (62.86 m) are consistent with other entries in the table. This row is an ordinary entry and does not require special handling.
+
+=== Full Table Preview ===
+|   row_number |   Year | Competition                | Venue                             | Position   | Event        | Notes   |
+|-------------:|-------:|:---------------------------|:----------------------------------|:-----------|:-------------|:--------|
+|            0 |   2000 | World Junior Championships | Santiago Chile                    | 1st        | Discus throw | 59.51 m |
+|            1 |   2003 | All-Africa Games           | Abuja Nigeria                     | 5th        | Shot put     | 17.76 m |
+|            2 |   2003 | All-Africa Games           | Abuja Nigeria                     | 2nd        | Discus throw | 62.86 m |
+|            3 |   2004 | African Championships      | Brazzaville Republic of the Congo | 2nd        | Discus throw | 63.50 m |
+|            4 |   2004 | Olympic Games              | Athens Greece                     | 8th        | Discus throw | 62.58 m |
+|            5 |   2006 | Commonwealth Games         | Melbourne Australia               | 7th        | Shot put     | 18.44 m |
+|            6 |   2006 | Commonwealth Games         | Melbourne Australia               | 4th        | Discus throw | 60.99 m |
+|            7 |   2007 | All-Africa Games           | Algiers Algeria                   | 3rd        | Discus throw | 57.79 m |
+|            8 |   2008 | African Championships      | Addis Ababa Ethiopia              | 2nd        | Discus throw | 56.98 m |
+
+Generated Reasoning SQL: Explanation: To determine the duration of the competitions, we need to find the difference between the earliest and latest years in the dataset. The "Year" column is numeric and represents the years in which the competitions took place. We will calculate the range by selecting the minimum and maximum values of the "Year" column.
+
+SQL: 
+SELECT MAX("Year") - MIN("Year") AS competition_duration
+FROM T;
+Generated Final SQL: SELECT MAX("Year") - MIN("Year") AS competition_duration FROM T;
+SQL 실행 결과 셀 수: 1
+=== SQL 실행 결과 미리보기 ===
+|   competition_duration |
+|-----------------------:|
+|                      8 |
+Reasoning Prompt:
+
+You are a strict SQL reasoning assistant. 
+Your task is to return the final answer **directly from the SQL result table**.
+
+Rules:
+- Do not generate new SQL or mention schema/summary.
+- Always write a short reasoning step before the Final Answer.
+- If one cell is returned: briefly confirm it is the only result.
+- If multiple rows/columns: reason step by step to filter or choose.
+- Ensure the final answer format is only "Final Answer: AnswerName1, AnswerName2..." form, no other form. And ensure the final answer is a number or entity names, as short as possible, without any explanation.
+
+Examples:
+
+Table_title: Olympic Events
+SQL: select "event" from T where cast("year" as integer) = 2008
+
+event
+100m Sprint
+Long Jump
+Marathon
+Swimming
+
+Question: how many events were held in 2008?
+Answer: Let's think step by step.  
+There are 4 rows returned for 2008, each representing one event.  
+Final Answer: 4
+
+
+Table_title: 2013-14 Toros Mexico season
+SQL: select "opponent", "date" from T where "date" > '2014-11-10' order by "date" asc
+
+opponent          | date
+Turlock Express   | 2014-11-14
+
+Question: who did the team play after the las vegas legends on november 10?
+Answer: Let's think step by step.  
+The next opponent listed after November 10 is Turlock Express.  
+Final Answer: Turlock Express
+
+Table_title: Hannes Hopley
+SQL: SELECT MAX("Year") - MIN("Year") AS competition_duration FROM T;
+
+SQL Execution Result:
+competition_duration
+8
+
+Question: how long did the competitions go on?
+A: To find the answer to this question, let’s think step by step.
+Prediction: 8
+[Gold Answer] 8 years
+
