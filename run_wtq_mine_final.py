@@ -101,7 +101,8 @@ Additionally, the following ROW INDICES were identified as OUTLIERS (atypical ro
 
 
 # ---------------------- SQL Reasoning ----------------------
-def tabsqlify_wtq(T, title, tab_col, question, three_row, summary, log_path=None, golden_answer=None):
+def tabsqlify_wtq(T, title, tab_col, question, full_table, summary, 
+                  log_path=None, golden_answer=None, preview_table=None, table_id=None) :
     """col 기반 → sql reasoning → fallback, 모든 과정 로그 저장"""
     response = ""
     output_ans = ""
@@ -125,6 +126,12 @@ def tabsqlify_wtq(T, title, tab_col, question, three_row, summary, log_path=None
             flog.write(msg + "\n")
 
     if flog:
+        flog.write("=== Table ID ===\n")
+        flog.write(str(dic.get("table_id", "UNKNOWN")) + "\n\n")
+        flog.write("=== Question ===\n")
+        flog.write(question + "\n\n")
+        flog.write("=== Sub-table Preview ===\n")
+        flog.write(preview_table + "\n\n")
         flog.write("=== Table Summary ===\n")
         flog.write(summary + "\n\n")
         flog.write("=== Full Table Preview ===\n")
@@ -132,7 +139,7 @@ def tabsqlify_wtq(T, title, tab_col, question, three_row, summary, log_path=None
         flog.flush()
 
     # 질문 기반 최종 SQL 생성
-    prompt_sql = gen_table_decom_prompt(title, tab_col, question, three_row, summary = summary)
+    prompt_sql = gen_table_decom_prompt(title, tab_col, question, full_table, summary = summary)
     sql_final = get_sql_3(prompt_sql)
     log(f"Generated Reasoning SQL: {sql_final}")
     sql_final = extract_sql_only(sql_final) 
@@ -155,7 +162,7 @@ def tabsqlify_wtq(T, title, tab_col, question, three_row, summary, log_path=None
         else:
             # 정상 결과 있으면 reasoning 단계로 진행
             linear_table = table_linearization(result_sql, style='pipe')
-            reasoning_prompt = generate_sql_answer_prompt(title, sql_final, linear_table, question, summary)
+            reasoning_prompt = generate_sql_answer_prompt(title, sql_final, linear_table, question)
             log(f"Reasoning Prompt:\n{reasoning_prompt}")
 
             response = get_answer(reasoning_prompt)
@@ -189,8 +196,8 @@ def tabsqlify_wtq(T, title, tab_col, question, three_row, summary, log_path=None
 # ---------------------- 메인 실행 ----------------------
 if __name__ == "__main__":
     path = 'datasets/wtq.jsonl'
-    start = 350
-    end = 4344
+    start = 0
+    end = 1
 
     table_ids = list(range(start, end))
     base_output = "outputs"
@@ -244,7 +251,7 @@ if __name__ == "__main__":
                             f.write(line + "\n")
 
                 # DataFrame 변환 (마크다운용)
-                csv_content = "\n".join([result_lines[0]] + result_lines[2:])
+                csv_content = "\n".join(result_lines)
                 subtable_df = pd.read_csv(StringIO(csv_content), sep="\t")
                 preview_table = subtable_df.to_markdown(index=False)
 
@@ -292,14 +299,14 @@ if __name__ == "__main__":
                 tab_col = ", ".join(T.columns)
                 conn_tmp = sqlite3.connect(":memory:")
                 T.to_sql("T", conn_tmp, index=False, if_exists="replace")
-                three_row_df = pd.read_sql_query("SELECT * FROM T LIMIT 3;", conn_tmp)
-                conn_tmp.close()
-                three_row = table_linearization(three_row_df, style='pipe')
+                full_table = table_linearization(T, style='pipe')
 
                 sql, result, response, output_ans, linear_table = tabsqlify_wtq(
-                    T, title, tab_col, question, three_row, summary,
+                    T, title, tab_col, question, full_table, summary,
                     log_path=os.path.join("outputs/sql_logs", f"{i}.txt"),  # ✅ idx만 사용
-                    golden_answer=answer
+                    golden_answer=answer,
+                    preview_table=preview_table, 
+                    table_id=table_id 
                 )
 
                 # === 평가 ===
@@ -315,8 +322,13 @@ if __name__ == "__main__":
 
                 # === 저장 ===
                 tmp = {
-                    'key': idx, 'question': question, 'response': response,
-                    'prediction': output_ans, 'answer': answer, 'summary': summary
+                    'idx': i,   # ✅ 실행 시점 인덱스 (start 기준)
+                    'prediction': output_ans,
+                    'answer': answer,
+                    'question': question,
+                    'response': response,
+                    'table_id': table_id,
+                    'question_id': idx,   # ✅ 원래 JSON의 "id" (예: "nu-165")
                 }
                 fw.write(json.dumps(tmp) + '\n')
 
